@@ -1,0 +1,11 @@
+# Ignore system/IDE files
+.DS_Store
+.idea/
+.vscode/
+*.iml
+
+# Ignore build outputs and docs
+docs/
+build/
+
+
