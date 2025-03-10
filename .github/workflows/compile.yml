@@ -1,25 +1,32 @@
-name: Compile All C Files
+name: Compile and Run All C Files
 
 on:
   push:
     branches:
-      - main  # Runs on every push to main branch
+      - main  # Runs this workflow on every push to main
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # GitHub gives you a Linux VM to run this
+    runs-on: ubuntu-latest  # GitHub runner
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3  # Pulls your latest repo content
+    - name: Checkout repository
+      uses: actions/checkout@v3  # Check out your code
 
     - name: Compile all C files
       run: |
-        mkdir -p build  # Make a build directory to store outputs
+        mkdir -p build  # Create build folder
         for file in *.c; do
           if [ -f "$file" ]; then
             echo "Compiling $file"
             gcc "$file" -o "build/${file%.c}" || exit 1
           fi
+        done
+
+    - name: Run compiled programs
+      run: |
+        for exe in build/*; do
+          echo "Running $exe"
+          $exe
         done
 
